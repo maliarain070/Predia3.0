@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VideoForge — HTML to 3D Video with Voice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2305060f'/%3E%3Cpath d='M22 16l28 16-28 16z' fill='%2300e5ff'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060f;--card:rgba(255,255,255,.05);--bd:rgba(255,255,255,.12);--tx:#e8ecff;--mu:#8a93b8;--c1:#00e5ff;--c2:#8b5cf6;--ok:#2cff9a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(600px 400px at 10% 5%,rgba(139,92,246,.35),transparent),radial-gradient(500px 400px at 90% 15%,rgba(0,229,255,.2),transparent)}
+nav{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 20px;background:rgba(5,6,15,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+.logo{font-family:Orbitron,sans-serif;font-weight:800;color:#fff;text-decoration:none;font-size:18px;text-shadow:0 0 16px var(--c1)}
+.links{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+a.l{color:var(--mu);text-decoration:none;padding:8px 13px;border-radius:10px;font-size:14px}
+a.l:hover,a.l.on{color:#fff;background:rgba(255,255,255,.09)}
+.wrap{max-width:1050px;margin:auto;padding:28px 18px 60px}
+h1{font-family:Orbitron,sans-serif;font-size:clamp(28px,5.5vw,52px);line-height:1.15;font-weight:800}
+h2{font-family:Orbitron,sans-serif;font-size:20px;margin:28px 0 12px;font-weight:600}
+.mu{color:var(--mu)}.sm{font-size:13px}
+.btn{border:0;cursor:pointer;padding:12px 22px;border-radius:12px;font:700 14px 'Space Grotesk',sans-serif;color:#04060f;background:linear-gradient(90deg,var(--c1),var(--c2));box-shadow:0 0 22px rgba(0,229,255,.3);text-decoration:none;display:inline-block}
+.btn.g{background:var(--card);color:var(--tx);border:1px solid var(--bd);box-shadow:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.tool{display:grid;gap:18px;grid-template-columns:1fr 1.15fr}
+label{font-size:13px;color:var(--mu);display:block}
+textarea,input,select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--bd);background:rgba(0,0,0,.4);color:var(--tx);font:14px 'Space Grotesk',sans-serif;margin:6px 0 12px;outline:0}
+textarea{min-height:230px;resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+select option{background:#0b0e1f}
+:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+canvas{width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;border:1px solid var(--bd);display:block;background:#000}
+.bar{height:7px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden;margin:12px 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c1),#ff3da6);transition:width .3s}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+video{width:100%;border-radius:14px;margin-top:12px;background:#000}
+details{padding:15px 18px;border:1px solid var(--bd);border-radius:14px;background:var(--card);margin-bottom:10px}
+summary{cursor:pointer;font-weight:700}details p{margin-top:9px;color:var(--mu);line-height:1.7;font-size:14px}
+.step{font-family:Orbitron,sans-serif;color:var(--c1);font-size:26px}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:30px 18px}
+[hidden]{display:none!important}
+@media(max-width:820px){.tool{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+ <a class="logo" href="#home">VIDEOFORGE</a>
+ <div class="links"><a class="l" href="#home">Home</a><a class="l" href="#tool">Converter</a><a class="l" href="#how">How it works</a><a class="l" href="#faq">FAQ</a></div>
+</nav>
+
+<!-- HOME -->
+<main class="wrap" data-p="home">
+ <div style="padding:30px 0 10px">
+  <h1>Turn any HTML page into a 3D video with voice.</h1>
+  <p class="mu" style="max-width:600px;margin:18px 0 26px;line-height:1.7">Paste your HTML or text, pick a voice and a theme, and VideoForge builds a 3D animated video and records it as an MP4 right in your browser. Free, no upload, no sign up.</p>
+  <a class="btn" href="#tool">Open converter</a> <a class="btn g" href="#how">How it works</a>
+ </div>
+ <h2>What you get</h2>
+ <div class="grid">
+  <div class="card"><b>3D animated slides</b><p class="mu sm" style="margin-top:6px">Every heading and paragraph becomes a spinning 3D card with floating shapes.</p></div>
+  <div class="card"><b>Voice narration</b><p class="mu sm" style="margin-top:6px">Choose from the voices on your device, change the speed, or record your own voice.</p></div>
+  <div class="card"><b>MP4 download</b><p class="mu sm" style="margin-top:6px">Chrome and Edge save MP4 directly. Other browsers save WebM.</p></div>
+  <div class="card"><b>Private</b><p class="mu sm" style="margin-top:6px">Everything happens on your computer. Your files are never uploaded.</p></div>
+ </div>
+</main>
+
+<!-- TOOL -->
+<main class="wrap" data-p="tool" hidden>
+ <h2 style="margin-top:0">HTML to 3D video converter</h2>
+ <div class="tool">
+  <div class="card">
+   <label for="src">Paste HTML or plain text</label>
+   <textarea id="src" placeholder="&lt;h1&gt;My Title&lt;/h1&gt;&#10;&lt;p&gt;Your text...&lt;/p&gt;"></textarea>
+   <div class="acts" style="margin-bottom:14px"><label class="btn g" style="margin:0;cursor:pointer;color:var(--tx)">Upload .html / .txt<input id="file" type="file" accept=".html,.htm,.txt,text/html,text/plain" hidden></label><button class="btn g" id="sample" type="button">Load sample</button></div>
+   <label for="theme">Theme</label>
+   <select id="theme"><option value="0">Neon</option><option value="1">Sunset</option><option value="2">Ocean</option></select>
+   <label for="mode">Voice in video</label>
+   <select id="mode">
+    <option value="tab">Computer voice (share this tab with audio when asked)</option>
+    <option value="mic">My own voice (microphone)</option>
+    <option value="none">No voice</option>
+   </select>
+   <label for="voice">Computer voice</label>
+   <select id="voice"></select>
+   <label for="rate">Speed: <span id="rv">1.0</span>x</label>
+   <input id="rate" type="range" min=".7" max="1.4" step=".05" value="1" style="padding:0">
+  </div>
+  <div class="card">
+   <canvas id="cv" width="1280" height="720"></canvas>
+   <div class="bar"><i id="pg"></i></div>
+   <div class="sm mu" id="msg" aria-live="polite">Ready. Paste your content and press Preview.</div>
+   <div class="acts" style="margin-top:14px">
+    <button class="btn g" id="prev" type="button">Preview</button>
+    <button class="btn" id="rec" type="button">Record &amp; make video</button>
+    <button class="btn g" id="stop" type="button" hidden>Stop</button>
+   </div>
+   <div id="res" hidden>
+    <video id="vid" controls playsinline></video>
+    <p style="margin-top:12px"><a class="btn" id="dl" download>Download video</a></p>
+   </div>
+  </div>
+ </div>
+</main>
+
+<!-- HOW -->
+<main class="wrap" data-p="how" hidden>
+ <h2 style="margin-top:0">How it works</h2>
+ <div class="grid">
+  <div class="card"><div class="step">1</div><b>Add content</b><p class="mu sm" style="margin-top:6px">Paste HTML or text, or upload a file. Headings start new slides and paragraphs become the narration.</p></div>
+  <div class="card"><div class="step">2</div><b>Preview</b><p class="mu sm" style="margin-top:6px">Press Preview to watch and hear the 3D video before recording.</p></div>
+  <div class="card"><div class="step">3</div><b>Record</b><p class="mu sm" style="margin-top:6px">Press Record. For the computer voice, choose "This tab" and turn on "Share tab audio". Stay on this tab until it finishes.</p></div>
+  <div class="card"><div class="step">4</div><b>Download</b><p class="mu sm" style="margin-top:6px">Your video appears below the player with a download button.</p></div>
+ </div>
+ <h2>Tips</h2>
+ <div class="card"><p class="mu sm" style="line-height:1.8">Use Chrome or Edge on a computer. Keep this tab open and visible while recording. If your video has no voice, switch to "My own voice" and read the slides aloud, or pick a Google or Microsoft voice in the list. Short paragraphs make better slides.</p></div>
+</main>
+
+<!-- FAQ -->
+<main class="wrap" data-p="faq" hidden>
+ <h2 style="margin-top:0">Questions</h2>
+ <details><summary>Is the video really MP4?</summary><p>Recent versions of Chrome and Edge record MP4 directly. In older browsers or Firefox the file is WebM. After recording, the page tells you which format you got. Any free converter can turn WebM into MP4.</p></details>
+ <details><summary>Why is there no voice in my video?</summary><p>Browsers cannot save the computer voice directly, so the tool records the tab's audio. Make sure you pick "This tab" and enable "Share tab audio". Some system voices are not captured. Try a different voice or use the microphone option.</p></details>
+ <details><summary>Does it render my HTML design exactly?</summary><p>No. It reads the headings and text from your HTML and shows them as 3D slides. Scripts, styles and images are ignored.</p></details>
+ <details><summary>Are my files uploaded anywhere?</summary><p>No. Everything runs in your browser on your computer.</p></details>
+ <details><summary>Does it work on a phone?</summary><p>Preview works, but recording is most reliable on desktop Chrome or Edge.</p></details>
+</main>
+<footer>VideoForge. Runs fully in your browser.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* ===== ROUTER (sab pages is ek file mein) ===== */
+let page='home';
+function route(){let h=(location.hash||'#home').slice(1);if(!$('[data-p="'+h+'"]'))h='home';page=h;
+ document.querySelectorAll('[data-p]').forEach(e=>e.hidden=e.dataset.p!==h);
+ document.querySelectorAll('a.l').forEach(a=>a.classList.toggle('on',a.hash==='#'+h));window.scrollTo(0,0)}
+addEventListener('hashchange',route);route();
+
+/* ===== THEMES ===== */
+const TH=[{c1:'#00e5ff',c2:'#8b5cf6',a:'#1b1245',b:'#052b3a',bg:0x070816},{c1:'#ffb347',c2:'#ff3da6',a:'#3a0f2e',b:'#1a0b1f',bg:0x12060f},{c1:'#2cff9a',c2:'#00b8d4',a:'#053a3a',b:'#04141c',bg:0x03101a}];
+let T=TH[0];
+
+/* ===== 3D SCENE ===== */
+const cv=$('#cv'),R=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});
+R.setSize(1280,720,false);R.setClearColor(T.bg);
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,16/9,.1,100);cam.position.set(0,0,8.5);
+sc.add(new THREE.AmbientLight(0xffffff,.9));
+const tc=document.createElement('canvas');tc.width=1024;tc.height=576;const cx=tc.getContext('2d'),tex=new THREE.CanvasTexture(tc);
+const side=new THREE.MeshStandardMaterial({color:0x222244,metalness:.6,roughness:.3});
+const card=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.6,.18),[side,side,side,side,new THREE.MeshBasicMaterial({map:tex}),new THREE.MeshStandardMaterial({color:0x0b0e24})]);
+sc.add(card);
+const wires=[0,1,2].map(i=>{const m=new THREE.Mesh(i===2?new THREE.TorusKnotGeometry(.45,.14,64,8):new THREE.IcosahedronGeometry(.55+i*.2),new THREE.MeshBasicMaterial({color:0x00e5ff,wireframe:true}));sc.add(m);return m});
+const pa=new Float32Array(1500).map(()=>(Math.random()-.5)*22),pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
+const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0x8b5cf6,size:.05}));sc.add(pts);
+function setTheme(){T=TH[+$('#theme').value];R.setClearColor(T.bg);wires.forEach(w=>w.material.color.set(T.c1));pts.material.color.set(T.c2)}
+$('#theme').onchange=()=>{setTheme();show(cur)};
+
+function wrap(t,w){const out=[];let l='';t.split(' ').forEach(wd=>{const n=l?l+' '+wd:wd;if(cx.measureText(n).width>w&&l){out.push(l);l=wd}else l=n});if(l)out.push(l);return out}
+function draw(s,i,n){const g=cx.createLinearGradient(0,0,1024,576);g.addColorStop(0,T.a);g.addColorStop(1,T.b);cx.fillStyle=g;cx.fillRect(0,0,1024,576);
+ cx.strokeStyle=T.c1;cx.lineWidth=6;cx.strokeRect(18,18,988,540);
+ let y=100;cx.textBaseline='alphabetic';
+ if(s.t){cx.font='800 50px Orbitron,Arial,sans-serif';cx.fillStyle=T.c1;wrap(s.t,900).slice(0,2).forEach(l=>{cx.fillText(l,62,y);y+=62});y+=14}
+ cx.font='500 29px "Space Grotesk",Arial,sans-serif';cx.fillStyle='#fff';wrap(s.x,900).slice(0,9).forEach(l=>{cx.fillText(l,62,y);y+=42});
+ cx.font='600 18px Arial';cx.fillStyle=T.c2;cx.fillText(n?(i+1)+' / '+n:'',62,535);cx.textAlign='right';cx.fillText('VideoForge',962,535);cx.textAlign='left';tex.needsUpdate=true}
+let cur=0,t0=0;
+function show(i){cur=i;const n=slides.length;draw(n?slides[i]:{t:'VideoForge',x:'Your 3D video appears here. Paste your HTML and press Preview.'},i,n);t0=performance.now();$('#pg').style.width=n?((i+1)/n*100)+'%':'0'}
+function loop(t){requestAnimationFrame(loop);if(page!=='tool')return;
+ cam.position.x=Math.sin(t/2500)*1.2;cam.position.y=Math.cos(t/3000)*.5;cam.lookAt(0,0,0);
+ const k=Math.min(1,(t-t0)/800),e=1-Math.pow(1-k,3);
+ card.rotation.y=(1-e)*-1.6+Math.sin(t/1800)*.18;card.rotation.x=Math.sin(t/2200)*.06;card.scale.setScalar(.6+.4*e);
+ wires.forEach((m,i)=>{m.rotation.x=t/1000+i;m.rotation.y=t/1300;m.position.set(Math.cos(t/1500+i*2.1)*(4.2+i*.3),Math.sin(t/1200+i*2)*1.8,-1-i*.6)});
+ pts.rotation.y=t/9000;R.render(sc,cam)}
+
+/* ===== PARSER: HTML ya text se slides ===== */
+function parse(src){src=src.trim();if(!src)return[];let g=[];
+ if(/<\w+[^>]*>/.test(src)){
+  const d=new DOMParser().parseFromString(src,'text/html');d.querySelectorAll('script,style,noscript,svg,nav,footer').forEach(e=>e.remove());
+  let c={t:(d.title||'').trim(),x:[]};
+  d.body.querySelectorAll('h1,h2,h3,p,li,blockquote').forEach(e=>{const tx=e.textContent.replace(/\s+/g,' ').trim();if(!tx)return;
+   if(/^H/.test(e.tagName)){if(c.x.length)g.push(c);c={t:tx,x:[]}}else c.x.push(tx)});
+  if(c.x.length||c.t)g.push(c);
+ }else src.split(/\n\s*\n/).forEach(b=>{b=b.trim();if(!b)return;const ls=b.split('\n');
+  if(ls.length>1&&ls[0].length<70)g.push({t:ls[0].trim(),x:[ls.slice(1).join(' ').trim()]});else g.push({t:'',x:[b.replace(/\s+/g,' ')]})});
+ const out=[];
+ g.forEach(s=>{const text=s.x.join(' ').trim();if(!text){if(s.t)out.push({t:s.t,x:'',first:1});return}
+  const ss=text.match(/[^.!?]+[.!?]*\s*/g)||[text];let cc='',f=1;
+  ss.forEach(z=>{if((cc+z).length>230&&cc){out.push({t:s.t,x:cc.trim(),first:f});f=0;cc=z}else cc+=z});
+  if(cc.trim())out.push({t:s.t,x:cc.trim(),first:f})});
+ return out.slice(0,40)}
+
+/* ===== VOICE ===== */
+const VS=$('#voice');
+function loadVoices(){const v=speechSynthesis.getVoices();VS.innerHTML=v.map((x,i)=>`<option value="${i}">${x.name} (${x.lang})</option>`).join('')||'<option>Default</option>';
+ const en=v.findIndex(x=>/^en/i.test(x.lang));if(en>-1)VS.value=en}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+$('#rate').oninput=e=>$('#rv').textContent=(+e.target.value).toFixed(1);
+
+/* ===== PLAYER + RECORDER ===== */
+let slides=[],playing=false,token=0,mr=null,chunks=[],extra=[];
+const msg=t=>$('#msg').textContent=t;
+function narrate(s,voice){return new Promise(res=>{
+ const text=((s.first&&s.t)?s.t+'. ':'')+s.x,words=text.split(/\s+/).length,rate=+$('#rate').value,min=Math.max(3,words/2.6/rate);
+ let fin=0,tm;const go=()=>{if(!fin){fin=1;clearTimeout(tm);res()}};
+ if(!voice||!('speechSynthesis' in window)){tm=setTimeout(go,min*1000);return}
+ tm=setTimeout(go,(min*1.7+3)*1000);
+ const u=new SpeechSynthesisUtterance(text),v=speechSynthesis.getVoices()[+VS.value];if(v){u.voice=v;u.lang=v.lang}
+ u.rate=rate;u.onend=()=>setTimeout(go,350);u.onerror=go;speechSynthesis.cancel();speechSynthesis.speak(u)})}
+async function startRec(){
+ const st=cv.captureStream(30),mode=$('#mode').value;extra=[];
+ try{
+  if(mode==='tab'){const ds=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true,preferCurrentTab:true});extra.push(ds);
+   if(!ds.getAudioTracks().length)msg('No tab audio was shared, so the video will have no voice. Try again and tick "Share tab audio".');ds.getAudioTracks().forEach(t=>st.addTrack(t))}
+  if(mode==='mic'){const ms=await navigator.mediaDevices.getUserMedia({audio:true});extra.push(ms);ms.getAudioTracks().forEach(t=>st.addTrack(t))}
+ }catch(e){msg('Permission was not given. Choose "No voice" or allow access and try again.');return false}
+ const mt=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t));
+ if(!mt){msg('Your browser cannot record video. Use Chrome or Edge on a computer.');return false}
+ mr=new MediaRecorder(st,{mimeType:mt,videoBitsPerSecond:5e6});chunks=[];
+ mr.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+ mr.onstop=()=>{extra.forEach(s=>s.getTracks().forEach(t=>t.stop()));const type=mr.mimeType||mt,b=new Blob(chunks,{type}),ext=/mp4/.test(type)?'mp4':'webm',u=URL.createObjectURL(b);
+  $('#vid').src=u;$('#dl').href=u;$('#dl').download='videoforge.'+ext;$('#dl').textContent='Download '+ext.toUpperCase()+' video';$('#res').hidden=false;
+  msg(ext==='mp4'?'Done! Your MP4 is ready.':'Done! Your browser saved WebM (MP4 is not supported here). It plays almost everywhere.')};
+ mr.start(500);return true}
+function finish(){if(!playing)return;playing=false;speechSynthesis.cancel();$('#stop').hidden=true;$('#prev').disabled=$('#rec').disabled=false;
+ if(mr&&mr.state!=='inactive')setTimeout(()=>mr.stop(),500);else msg('Finished.')}
+async function run(record){if(playing)return;slides=parse($('#src').value);
+ if(!slides.length)return msg('Paste some HTML or text first.');
+ $('#res').hidden=true;
+ if(record&&!(await startRec()))return;
+ playing=true;const my=++token,voice=record?$('#mode').value==='tab':$('#mode').value!=='none';
+ $('#stop').hidden=false;$('#prev').disabled=$('#rec').disabled=true;msg(record?'Recording... stay on this tab until it finishes.':'Playing preview...');
+ show(0);await sleep(700);
+ for(let i=0;i<slides.length;i++){if(my!==token)return;show(i);await narrate(slides[i],voice)}
+ if(my===token){await sleep(500);finish()}}
+$('#prev').onclick=()=>{mr=null;run(false)};$('#rec').onclick=()=>run(true);$('#stop').onclick=()=>{token++;finish()};
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#src').value=r.result;msg('File loaded: '+f.name)};r.readAsText(f)};
+$('#sample').onclick=()=>{$('#src').value=`<h1>Welcome to VideoForge</h1>
+<p>This tool turns your web page text into a 3D video. Every heading becomes a new slide.</p>
+<h2>Why use it?</h2>
+<p>It is fast, free and private. Everything runs inside your browser.</p>
+<h2>Try it now</h2>
+<p>Paste your own HTML, choose a voice, and press record.</p>`;msg('Sample loaded. Press Preview.')};
+show(0);requestAnimationFrame(loop);
+</script>
+</body>
+</html>
